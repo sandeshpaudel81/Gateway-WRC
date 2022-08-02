@@ -1,0 +1,40 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block pageTitle %} Login | Gateway WRC {% endblock pageTitle%}
+
+{% block content %}
+<div class="w-7/12 mx-auto my-10">
+    <div class="grid grid-cols-2">
+        <div class=" col-span-2 lg:col-span-1 p-10 bg-white">
+            <img src="{% static 'webapp/images/login-vector.jpg' %}" class="w-full mt-20"/>
+        </div>
+        <div class="col-span-2 lg:col-span-1 bg-logoblue p-10">
+            <div class="mt-20">
+                <h1 class="text-6xl font-bold text-white">LOGIN</h1>
+                <p class="text-xl text-gray-200">To The Admin Panel</p>
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                <p class="{% if message.tags == 'success' %}bg-successGreen{% else %}bg-errorRed{% endif %} text-white p-5">{{message}}</p>
+                {% endfor %}
+            {% endif %}
+            <form method="post" action="/login/" class="mt-10 mb-20">
+                {% csrf_token %}
+                <div class="relative flex items-center text-gray-400 focus-within:text-white mb-10">
+                    <i class="fas fa-user absolute ml-3 pointer-events-none"></i>
+                    <input type="text" name="username" id="username" class="w-full bg-transparent pl-10 rounded-md border-white text-white placeholder:text-gray-400" placeholder="Username" required>
+                </div>
+                <div class="relative flex items-center text-gray-400 focus-within:text-white mb-10">
+                    <i class="fas fa-key absolute ml-3 pointer-events-none"></i>
+                    <input type="password" name="password" id="password" class="w-full bg-transparent pl-10 rounded-md border-white text-white placeholder:text-gray-400" placeholder="Password" required>
+                </div>
+                <div class="relative flex text-logoblue mb-5">
+                    <input type="submit" class="bg-white hover:bg-logoblue-1 rounded-md outline-gray-200 cursor-pointer px-10 py-3">
+                </div>
+                <p class="text-sm text-gray-200">Forgot password? <a href="#" class="hover:underline">Reset here!</a></p>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock content %}

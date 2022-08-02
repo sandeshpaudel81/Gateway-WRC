@@ -1,0 +1,64 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block pageTitle %} {{informant.fullName}} | Gateway WRC {% endblock pageTitle%}
+
+{% block content %}
+<div class="w-7/12 mx-auto">
+    <div class="bg-white mt-3 rounded-lg p-5">
+        <div class="flex py-3">
+            <img src="{{informant.logo.url}}" alt="{{informant.fullName}}" class="w-40 ml-5 rounded-full">
+            <div class="ml-20">
+                <h1 class="font-bold text-4xl">{{informant.fullName}}</h1>
+                <p class="font-semibold text-xl">@{{informant.user.username}}</p>
+                <p class="text-lg mt-2">{{informant.bio}}</p>
+                <a href="{{informant.linkInBio}}" target="_blank" class="text-logoblue hover:underline">{{informant.linkInBio}}</a>
+            </div>
+        </div>
+        {% if user.is_authenticated and user.id == informant.user.id %}
+        <div class="flex justify-end">
+            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer" href="/change_password">Change Password</a>
+            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer" href="/edit_profile">Edit Profile</a>
+            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer" href="/add_post">Add Post</a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="grid grid-cols-3 gap-5 py-5">
+        <div class="col-span-3 lg:col-span-2">
+            {% for post in posts %}
+            <div class="bg-white rounded-md mb-5">
+                <div class="flex p-3">
+                    <img src="{{post.getUserDetail.profile.logo.url}}" alt="{{post.getUserDetail.profile.fullName}}" class="w-10 rounded-full hover:border-2 hover:border-logoblue">
+                    <h3 class="self-center ml-5 font-semibold">{{post.getUserDetail.profile.fullName}}</h3>
+                    {% if user.is_authenticated and user.id == informant.user.id %}
+                    <a href="/edit_post/{{post.id}}" class="self-center ml-auto cursor-pointer text-logoblue1 hover:text-logoblue">Edit</a>
+                    {% endif %}
+                </div>
+                <hr>
+                {% if post.image %}
+                <img src="{{post.image.url}}" alt="{{post.title}}" class="w-full">
+                {% endif %}
+                <div class="px-3 py-2">
+                    <h3 class="font-bold">@{{post.getUserDetail.username}}</h3>
+                    <h1 class="font-semibold">{{post.title}}</h1>
+                    <p>{{post.content|safe}}</p>
+                    <a href="{{post.usefulLink}}" target="_blank" class="text-logoblue hover:underline"><p>{{post.usefulLink}}</p></a>
+                    <small class="text-sm text-gray-600">{{post.date_created}}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-span-3 lg:col-span-1">
+            <div class="bg-white p-3">
+                <h1 class="mb-5">All Clubs</h1>
+                {% for informant in informants %}
+                <div class="flex mb-4">
+                    <a href="/profile/{{informant.user.id}}"><img src="{{informant.logo.url}}" alt="{{informant.fullName}}" class="w-10 rounded-full hover:border-2 hover:border-logoblue"></a>
+                    <h3 class="self-center ml-5 font-semibold hover:underline"><a href="/profile/{{informant.user.id}}">{{informant.fullName}}</a></h3>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

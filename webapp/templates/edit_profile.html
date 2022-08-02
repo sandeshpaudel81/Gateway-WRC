@@ -1,0 +1,62 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block pageTitle %} Edit Profile | Gateway WRC {% endblock pageTitle%}
+
+{% block content %}
+<div class="w-7/12 mx-auto">
+    <div class="bg-white mt-3 rounded-lg p-5">
+        <div class="flex py-3">
+            <img src="{{profile.logo.url}}" alt="{{profile.fullName}}" class="w-40 ml-5 rounded-full">
+            <div class="ml-20">
+                <h1 class="font-bold text-4xl">{{profile.fullName}}</h1>
+                <p class="font-semibold text-xl">@{{user.username}}</p>
+                <p class="text-lg mt-2">{{profile.bio}}</p>
+                <p>{{profile.linkInBio}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="bg-white mt-3 p-10">
+        <h1 class="text-6xl font-bold">Edit Profile</h1>
+        <form method="post" action="/edit_profile/" enctype="multipart/form-data" class="mt-10 mb-20">
+            {% csrf_token %}
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label>Username</label>
+                <input value="{{user.username}}" type="text" name="username" id="username" class="w-full bg-transparent ml-5 rounded-md border-gray-600 text-black placeholder:text-gray-600" placeholder="Username">
+            </div>
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label>Email Address</label>
+                <input value="{{user.email}}" type="email" name="emailAddress" id="emailAddress" class="w-full bg-transparent ml-5 rounded-md border-gray-600 text-black placeholder:text-gray-600" placeholder="Email Address">
+            </div>
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label>Full Name</label>
+                <input value="{{profile.fullName}}" type="text" name="fullName" id="fullName" class="w-full bg-transparent ml-5 rounded-md border-gray-600 text-black placeholder:text-gray-600" placeholder="Full Name">
+            </div>
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label>Bio</label>
+                <textarea name="bio" id="bio" class="w-full bg-transparent ml-5 rounded-md border-gray-600 text-black placeholder:text-gray-600" placeholder="Full Name">{{profile.bio}}</textarea>
+            </div>
+            {% if profile.logo %}
+            <img src="{{profile.logo.url}}" alt="{{profile.fullName}}" class="w-20 mb-5">
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <input type="checkbox" id="clearImage" name="clearImage" value="True">
+                <label class="ml-5">Clear Profile Photo</label>
+            </div>
+            {% endif %}
+            <p class="text-gray-600">* Upload image to update.</p>
+            <p class="text-gray-600">* Skip it to keep unchanged.</p>
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label class="mr-5">Profile Photo</label>
+                <input type="file" name="profilePhoto">
+            </div>
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label class="mr-5">Link</label>
+                <input value="{{profile.linkInBio}}" type="url" name="linkInBio" id="linkInBio" class="w-full bg-transparent ml-5 rounded-md border-gray-600 text-black placeholder:text-gray-600" placeholder="Link In Bio">
+            </div>
+            <div class="relative flex text-white mb-5">
+                <input type="submit" class="bg-logoblue hover:bg-logoblue1 rounded-md outline-gray-200 cursor-pointer px-10 py-3" value="Edit Profile">
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

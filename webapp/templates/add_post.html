@@ -1,0 +1,55 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block pageTitle %} Add Post | Gateway WRC {% endblock pageTitle%}
+
+{% block content %}
+<div class="w-7/12 mx-auto">
+    <div class="bg-white mt-3 rounded-lg p-5">
+        <div class="flex py-3">
+            <img src="{{informant.logo.url}}" alt="{{informant.fullName}}" class="w-40 ml-5 rounded-full">
+            <div class="ml-20">
+                <h1 class="font-bold text-4xl">{{informant.fullName}}</h1>
+                <p class="font-semibold text-xl">@{{informant.user.username}}</p>
+                <p class="text-lg mt-2">{{informant.bio}}</p>
+                <a href="{{informant.linkInBio}}" target="_blank" class="text-logoblue hover:underline">{{informant.linkInBio}}</a>
+            </div>
+        </div>
+        {% if user.is_authenticated and user.id == informant.user.id %}
+        <div class="flex justify-end">
+            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer">Edit Profile</a>
+            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer">Add Post</a>
+        </div>
+        {% endif %}
+    </div>
+    <div class="bg-white mt-3 p-10">
+        <h1 class="text-6xl font-bold">Add Post</h1>
+        <form method="post" action="/add_post/" enctype="multipart/form-data" class="mt-10 mb-20">
+            {% csrf_token %}
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label>Title</label>
+                <input type="text" name="postTitle" id="postTitle" class="w-full bg-transparent ml-5 rounded-md border-gray-600 text-black placeholder:text-gray-600" placeholder="Title of the post">
+            </div>
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label class="mr-5">Content</label>
+                <textarea class="ckeditor w-full bg-transparent rounded-md border-gray-600 text-black placeholder:text-gray-600" id="postContent" name="postContent"></textarea>
+            </div>
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label class="mr-5">Image</label>
+                <input type="file" name="postImage">
+            </div>
+            <div class="relative flex items-center text-black focus-within:text-gray-600 mb-10">
+                <label class="mr-5">Link</label>
+                <input type="url" name="postLink" id="postLink" class="w-full bg-transparent ml-5 rounded-md border-gray-600 text-black placeholder:text-gray-600" placeholder="Related link (if any)">
+            </div>
+            <div class="relative flex text-white mb-5">
+                <input type="submit" class="bg-logoblue hover:bg-logoblue1 rounded-md outline-gray-200 cursor-pointer px-10 py-3" value="Add Post">
+            </div>
+        </form>
+    </div>
+</div>
+<script src="//cdn.ckeditor.com/4.19.1/standard/ckeditor.js"></script>
+<script>
+    CKEDITOR.replace( 'postContent' );
+</script>
+{% endblock content %}

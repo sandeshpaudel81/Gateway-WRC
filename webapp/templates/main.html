@@ -1,0 +1,53 @@
+{% load static %}
+{% load tailwind_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
+    <title>{% block pageTitle %}{% endblock pageTitle %}</title>
+    {% tailwind_css %}
+</head>
+<body class="font-lato bg-whole" onload="hideAlertMessage()">
+    {% if messages %}
+        {% for message in messages %}
+        <p class="{% if message.tags == 'success' %}bg-successGreen{% else %}bg-errorRed{% endif %} text-white p-3 mt-10 rounded-lg w-1/4 fixed z-50 right-10 top-[850px]" id="alertMessage">{{message}}</p>
+        {% endfor %}
+    {% endif %}
+    <header class="bg-white">
+        <div class="w-7/12 mx-auto">
+            <div class="grid grid-cols-2 relative">
+                <div>
+                    <img src="{% static 'webapp/images/logo.png' %}" class="w-32"/>
+                </div>
+                <div class="flex pt-3 justify-end">
+                    <a href="/" class="hover:text-gray-600"><i class="fas fa-home text-3xl"></i></a>
+                    {% if user.is_authenticated %}
+                    <div id="avatar"><img src="{{user.profile.logo.url}}" alt="{{user.profile.fullName}}" class="w-10 rounded-full hover:border-2 hover:border-logoblue ml-5"></div>
+                    <div class="absolute hidden bg-white top-16 border-2 border-gray-400 rounded-sm" id="dropdown">
+                        <a href="/profile/{{user.id}}" class="cursor-pointer"><p class="hover:bg-gray-400 py-2 px-3"><i class="far fa-user mr-4"></i>Profile</p></a>
+                        <a href="/logout" class="cursor-pointer"><p class="hover:bg-gray-400 py-2 px-3"><i class="far fa-sign-out mr-4"></i>Logout</p></a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock content %}
+    </main>
+    <script>
+        document.getElementById("avatar").onclick = function(){
+            document.getElementById("dropdown").classList.toggle("hidden");
+        }
+        function hideAlertMessage() {
+            setTimeout(function(){
+                document.getElementById('alertMessage').classList.add('hidden');
+            }, 4000)
+        }
+    </script>
+</body>
+</html>
