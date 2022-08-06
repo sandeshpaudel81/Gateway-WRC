@@ -21,16 +21,16 @@ git clone https://github.com/sandeshpaudel81/Gateway-WRC.git && cd gatewayWRC
 pip install virtualenv
 ```
 
-Or
-
-```shell
-python -m venv myenv
-```
-
 4. Create virtual environment.
 
 ```shell
 virtualenv myenv
+```
+
+Or
+
+```shell
+python -m venv myenv
 ```
 
 5. Activate environment (in Windows):
