@@ -5,6 +5,7 @@ from django.contrib import messages
 from webapp.models import Profile, Post
 from django.contrib.auth.models import User
 from django.contrib.auth.hashers import make_password
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def about(request):
@@ -44,6 +45,7 @@ def profile(request, id):
     return render(request, "profile.html", context)
 
 
+@login_required(login_url='/login/')
 def add_post(request):
     if request.method == 'POST':
         postTitle = request.POST.get('postTitle')
@@ -68,6 +70,7 @@ def add_post(request):
     return render(request, "add_post.html", context)
 
 
+@login_required(login_url='/login/')
 def edit_post(request, id):
     if request.method == 'POST':
         try:
@@ -95,6 +98,7 @@ def edit_post(request, id):
         return render(request, "edit_post.html", context)
 
 
+@login_required(login_url='/login/')
 def edit_profile(request):
     if request.method == "POST":
         try:
@@ -121,6 +125,7 @@ def edit_profile(request):
     return render(request, "edit_profile.html", context)
 
 
+@login_required(login_url='/login/')
 def change_password(request):
     if request.method == "POST":
         user = request.user

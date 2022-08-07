@@ -13,6 +13,7 @@ urlpatterns = [
     path('edit_profile/', views.edit_profile, name="edit_profile"),
     path('change_password/', views.change_password, name="change_password"),
 
+
     path('login/', auth_views.LoginView.as_view(
         template_name='login.html', redirect_authenticated_user=True
     ), name='login'),
