@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from ckeditor.fields import RichTextField
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from datetime import timedelta
 
 
 class Profile(models.Model):
@@ -14,6 +15,10 @@ class Profile(models.Model):
     
     def __str__(self):
         return '%s' % (self.fullName)
+
+    @property
+    def checkIsStaff(self):
+        return self.user.is_staff
 
 
 @receiver(post_save, sender=User)
@@ -45,3 +50,7 @@ class Post(models.Model):
             'profile': profile
         }
         return detail
+
+    def datetime(self):
+        datetime = self.date_created+timedelta(minutes=345)
+        return datetime.strftime("%Y %B %d, %I:%M:%S %p")

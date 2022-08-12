@@ -12,7 +12,9 @@
                 <h1 class="font-bold text-4xl">{{informant.fullName}}</h1>
                 <p class="font-semibold text-xl">@{{informant.user.username}}</p>
                 <p class="text-lg mt-2">{{informant.bio}}</p>
+                {% if informant.linkInBio %}
                 <a href="{{informant.linkInBio}}" target="_blank" class="text-logoblue hover:underline">{{informant.linkInBio}}</a>
+                {% endif %}
             </div>
         </div>
         {% if user.is_authenticated and user.id == informant.user.id %}
