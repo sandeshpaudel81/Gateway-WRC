@@ -19,8 +19,9 @@
         </div>
         {% if user.is_authenticated and user.id == informant.user.id %}
         <div class="flex justify-end">
-            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer">Edit Profile</a>
-            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer">Add Post</a>
+            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer" href="/change_password">Change Password</a>
+            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer" href="/edit_profile">Edit Profile</a>
+            <a class="border-2 border-logoblue px-5 py-2 rounded-lg mx-2 cursor-pointer" href="/add_post">Add Post</a>
         </div>
         {% endif %}
     </div>
